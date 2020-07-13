@@ -2,11 +2,12 @@ from django.test import LiveServerTestCase
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import WebDriverException
 
 import time
-import unittest
 
 MAX_WAIT = 10
+
 
 class NewVisitorTest(LiveServerTestCase):
 
@@ -29,17 +30,14 @@ class NewVisitorTest(LiveServerTestCase):
 				if time.time() - start_time > MAX_WAIT:
 					raise e
 				time.sleep(0.5)
-					
-			
-		
-	def test_can_start_a_list_and_retrieve_it_later(self):
+
+	def test_can_start_a_list_for_one_user(self):
 
 		"""
 		Edir ouviu falar de uma nova aplicação online interessante
 		para lista de tarefas. Ela decide verificar sua homepage
 		"""
 		self.browser.get(self.live_server_url)
-
 
 		"""
 		Ela percebe que o título da página e o cabeçalho
@@ -48,7 +46,6 @@ class NewVisitorTest(LiveServerTestCase):
 		self.assertIn('To-Do', self.browser.title)
 		header_text = self.browser.find_element_by_tag_name('h1').text
 		self.assertIn('To-Do', header_text)
-
 
 		"""
 		Ela é convidada a inserir um item de tarefa imediatamente
@@ -66,7 +63,6 @@ class NewVisitorTest(LiveServerTestCase):
 		"""
 		inputbox.send_keys('Buy peacock feathers')
 
-		
 		"""
 		Quando ela tecla enter, a página é atualizada, e agora
 		a página lista "i: Buy peacock feathers" como um item em uma
@@ -91,17 +87,51 @@ class NewVisitorTest(LiveServerTestCase):
 		self.wait_for_row_in_list_table('1: Buy peacock feathers')
 		self.wait_for_row_in_list_table('2: Use peacock feathers to make a fly')
 
-		self.fail('Finish the test!')
+		# satisfeita ela vai dormir
 
-"""
+		# self.fail('Finish the test!')
 
+	def test_multiple_users_can_start_lists_at_different_urls(self):
+		# Edith starts a new to-do list
+		self.browser.get(self.live_server_url)
+		inputbox = self.browser.find_element_by_id('id_new_item')
+		inputbox.send_keys('Buy peacock feathers')
+		inputbox.send_keys(Keys.ENTER)
+		self.wait_for_row_in_list_table('1: Buy peacock feathers')
 
+		# She notices that her list has a unique URL
+		edith_list_url = self.browser.current_url
+		self.assertRegex(edith_list_url, '/lists/.+')
 
-Edit se pergunta se o site lembrará de sua lista. Então
-ela nota que o site gerou um URL único para ela -- há um
-pequeno texto explicativo para isso
+		# Now a new user, Francis, comes along to the site
 
-Ela acessa esse URL - sua lista de tarefas continua lá
+		## We use a new browser session to make sure that no
+		## information of Edit's is commig through from cookies, etc
+		self.browser.quit()
+		self.browser = webdriver.Firefox()
 
-Satisfeita, ela volta a dormir
-"""
+		# Francis visits the home page. There is no sign
+		# of Edith's list
+		self.browser.get(self.live_server_url)
+		page_text = self.browser.find_element_by_tag_name('body').text
+		self.assertNotIn('Buy peacock feathers', page_text)
+		self.assertNotIn('make a fly', page_text)
+
+		# Francis starts a new list by entering a new item.
+		# He is less interesting that Edith...
+		inputbox = self.browser.find_element_by_id('id_new_item')
+		inputbox.send_keys('Buy milk')
+		inputbox.send_keys(Keys.ENTER)
+		self.wait_for_row_in_list_table('1: Buy milk')
+
+		# Francis gets his own unique URL
+		francis_list_url = self.browser.current_url
+		self.assertRegex(francis_list_url, '/lists/.+')
+		self.assertNotEqual(francis_list_url, edith_list_url)
+
+		# Again, there is no trace of Edith's list
+		page_text = self.browser.find_element_by_tag_name('body').text
+		self.assertNotIn('Buy peacock feathers', page_text)
+		self.assertIn('Buy milk')
+
+		# Satisfied, they both go back to sleep
