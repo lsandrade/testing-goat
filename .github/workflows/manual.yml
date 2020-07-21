@@ -21,7 +21,7 @@ jobs:
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       run: |
-        heroku git:remote -a superlists
+        heroku git:remote -a testing-goat-sl
         git subtree push --prefix superlists heroku master
 #    - name: Release
 #      env:
