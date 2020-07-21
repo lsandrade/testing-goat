@@ -22,6 +22,12 @@ jobs:
             . venv/bin/activate
             cd superlists
             python3 manage.py test lists
+      - run:
+          name: Running functional tests
+          command: |
+            . venv/bin/activate
+            cd superlists
+            python3 manage.py test functional_tests
       - store_artifacts:
           path: test-reports/
           destination: python_app
