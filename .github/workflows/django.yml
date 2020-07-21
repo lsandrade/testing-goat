@@ -31,6 +31,6 @@ jobs:
         python manage.py test lists
 
     - name: Run Functional Tests
-        run: |
-          cd superlists
-          python manage.py test functional_tests
+      run: |
+        cd superlists
+        python manage.py test functional_tests
