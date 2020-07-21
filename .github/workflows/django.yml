@@ -48,12 +48,14 @@ jobs:
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       run: |
-        cd superlists
-        heroku git:remote -a ${{ secrets.HEROKU_APP_NAME }}
+        git subtree push --prefix superlists heroku master
+        git subtree push --prefix ${{ secrets.HEROKU_APP_NAME }} heroku master
+#        heroku git:remote -a ${{ secrets.HEROKU_APP_NAME }}
 
-    - name: Release
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: |
-        cd superlists
-        heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web
+#    - name: Release
+#      env:
+#        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+#      run: |
+#        git subtree push --prefix superlists heroku master
+#
+#        heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web
