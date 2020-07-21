@@ -15,4 +15,4 @@ jobs:
         heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
         heroku_email: ${{ secrets.HEROKU_EMAIL }}
         appdir: "superlists"
-        healthcheck: "https://${{ secrets.HEROKU_EMAIL }}.herokuapp.com/health"
+        healthcheck: "https://${{ secrets.HEROKU_APP_NAME }}.herokuapp.com/health"
