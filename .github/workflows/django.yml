@@ -38,24 +38,3 @@ jobs:
         python manage.py test functional_tests
       env:
         ENV: "dev"
-
-    - name: Login to Heroku Container registry
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:login
-
-    - name: Build and push
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: |
-        cd superlists
-        heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} web
-#        heroku git:remote -a ${{ secrets.HEROKU_APP_NAME }}
-
-#    - name: Release
-#      env:
-#        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-#      run: |
-#        git subtree push --prefix superlists heroku master
-#
-#        heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web
