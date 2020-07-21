@@ -11,12 +11,16 @@ import time
 MAX_WAIT = 10
 
 
+def _get_browser():
+	options = Options()
+	options.headless = True
+	return webdriver.Firefox(options=options)
+
+
 class NewVisitorTest(StaticLiveServerTestCase):
 
 	def setUp(self):
-		options = Options()
-		options.headless = True
-		self.browser = webdriver.Firefox(options=options)
+		self.browser = _get_browser()
 		staging_server = os.environ.get('STAGING_SERVER')
 		if staging_server:
 			self.live_server_url = 'http://' + staging_server
@@ -112,7 +116,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
 		## We use a new browser session to make sure that no
 		## information of Edit's is commig through from cookies, etc
 		self.browser.quit()
-		self.browser = webdriver.Firefox()
+		self.browser = _get_browser()
 
 		# Francis visits the home page. There is no sign
 		# of Edith's list
