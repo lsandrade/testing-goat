@@ -49,7 +49,7 @@ jobs:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       run: |
         cd superlists
-        heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} --recursive
+        heroku container:push web -a ${{ secrets.HEROKU_APP_NAME }} --recursive
 
     - name: Release
       env:
