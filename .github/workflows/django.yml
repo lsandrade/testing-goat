@@ -33,3 +33,5 @@ jobs:
       run: |
         cd superlists
         python manage.py test functional_tests
+      env:
+        ENV: "dev"

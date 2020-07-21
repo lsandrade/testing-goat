@@ -12,9 +12,13 @@ MAX_WAIT = 10
 
 
 def _get_browser():
-	options = Options()
-	options.headless = True
-	return webdriver.Firefox(options=options)
+	env = os.environ.get('ENV')
+	if env and env == 'dev':
+		options = Options()
+		options.headless = True
+		return webdriver.Firefox(options=options)
+	else:
+		return webdriver.Firefox()
 
 
 class NewVisitorTest(StaticLiveServerTestCase):
