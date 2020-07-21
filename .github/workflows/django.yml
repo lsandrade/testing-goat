@@ -17,6 +17,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Install Firefox
+      run: |
+        apt-get install firefox
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:
@@ -29,7 +32,6 @@ jobs:
       run: |
         cd superlists
         python manage.py test lists
-
     - name: Run Functional Tests
       run: |
         cd superlists
