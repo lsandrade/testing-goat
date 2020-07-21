@@ -21,8 +21,7 @@ jobs:
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       run: |
-        cd superlists
-        git push heroku master
+        git subtree push --prefix superlists heroku master
 #    - name: Release
 #      env:
 #        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
