@@ -1,7 +1,13 @@
 # This is a basic workflow that is manually triggered
 
 name: Push Container to Heroku
-
+on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Lalala'
+        required: false
+        default: 'Bla'
 jobs:
   build:
     runs-on: ubuntu-latest
