@@ -21,17 +21,39 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
+
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+
     - name: Run Unit Tests
       run: |
         cd superlists
         python manage.py test lists
+
     - name: Run Functional Tests
       run: |
         cd superlists
         python manage.py test functional_tests
       env:
         ENV: "dev"
+
+    - name: Login to Heroku Container registry
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku container:login
+
+    - name: Build and push
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: |
+        cd superlists
+        heroku container:push -a ${{ secrets.HEROKU_APP_NAME }}
+
+    - name: Release
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: |
+        cd superlists
+        heroku container:release -a ${{ secrets.HEROKU_APP_NAME }}
