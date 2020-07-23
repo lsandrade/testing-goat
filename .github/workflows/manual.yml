@@ -14,15 +14,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-#    - name: Login to Heroku Container registry
-#      env:
-#        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-#      run: heroku container:login
+    - name: Login to Heroku Container registry
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku login
     - name: Build and push
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       run: |
-        heroku login
         heroku git:clone -a ${{ secrets.HEROKU_APP_NAME }}
         \cp superlists/* ${{ secrets.HEROKU_APP_NAME }}
         cd ${{ secrets.HEROKU_APP_NAME }}
@@ -30,8 +29,3 @@ jobs:
         git commit "deploy"
         git push heroku master
         heroku run python manage.py migrate
-#        heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} web
-#    - name: Release
-#      env:
-#        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-#      run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web
