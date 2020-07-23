@@ -1,8 +1,13 @@
 # This is a basic workflow that is manually triggered
 
 name: Deploy to Heroku
+#on:
+#  workflow_dispatch:
+
+# temporariamente autmatico
 on:
-  workflow_dispatch:
+  push:
+    branches: [ testeci ]
 
 jobs:
   build:
