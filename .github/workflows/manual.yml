@@ -23,6 +23,6 @@ jobs:
       run: |
         ls ${{ secrets.HEROKU_APP_NAME }}
         echo "=========="
-        git subtree push --prefix ${{ secrets.HEROKU_APP_NAME }} heroku master
+        git subtree push --prefix superlists heroku master
         echo "=========="
 #        git push heroku HEAD:master -f
