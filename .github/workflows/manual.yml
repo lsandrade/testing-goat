@@ -16,28 +16,9 @@ jobs:
     - uses: actions/checkout@v1
     - name: Add remote origin
       run: |
+        cd superlists
         git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
     - name: Deploy to Heroku
       run: |
+        cd superlists
         git push heroku HEAD:master -f
-#    - name: Login to Heroku Container registry
-#      env:
-#        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-#      run: heroku login
-#    - name: Build and push
-#      env:
-#        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-#      run: |
-#
-#
-#        heroku git:remote -a ${{ secrets.HEROKU_APP_NAME }}
-#        git push heroku master
-
-
-#        heroku git:clone -a ${{ secrets.HEROKU_APP_NAME }}
-#        \cp superlists/* ${{ secrets.HEROKU_APP_NAME }}
-#        cd ${{ secrets.HEROKU_APP_NAME }}
-#        git add .
-#        git commit "deploy"
-#        git push heroku master
-#        heroku run python manage.py migrate
