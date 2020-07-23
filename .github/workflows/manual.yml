@@ -23,6 +23,7 @@ jobs:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       run: |
         heroku git:remote -a ${{ secrets.HEROKU_APP_NAME }}
+        git push heroku master
 #        heroku git:clone -a ${{ secrets.HEROKU_APP_NAME }}
 #        \cp superlists/* ${{ secrets.HEROKU_APP_NAME }}
 #        cd ${{ secrets.HEROKU_APP_NAME }}
