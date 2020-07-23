@@ -24,7 +24,6 @@ jobs:
         cd ${{ secrets.HEROKU_APP_NAME }}
         ls
         echo "=========="
-#        git status
         git add .
         git commit -m "deploy"
         echo "=========="
