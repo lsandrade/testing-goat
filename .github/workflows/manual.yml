@@ -16,13 +16,13 @@ jobs:
     - uses: actions/checkout@v1
     - name: Add remote origin
       run: |
+        cp -a superlists/. ${{ secrets.HEROKU_APP_NAME }}
+        cd ${{ secrets.HEROKU_APP_NAME }}
         git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
-#        cp -a superlists/. ${{ secrets.HEROKU_APP_NAME }}
-#        cd ${{ secrets.HEROKU_APP_NAME }}
     - name: Deploy to Heroku
       run: |
-        ls superlists
+        cd ${{ secrets.HEROKU_APP_NAME }}
         echo "=========="
-        git subtree push --prefix superlists heroku master
+        ls
         echo "=========="
-#        git push heroku HEAD:master -f
+        git push heroku HEAD:master -f
