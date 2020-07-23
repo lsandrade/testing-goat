@@ -7,7 +7,7 @@ name: Deploy to Heroku
 # temporariamente autmatico
 on:
   push:
-    branches: [ testeci ]
+    branches: [ testci ]
 
 jobs:
   build:
