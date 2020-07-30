@@ -1,1 +1,1 @@
-web: gunicorn superlists.wsgi
+web: python manage.py collectstatic --no-input; gunicorn superlists.wsgi --log-file - --log-level debug
