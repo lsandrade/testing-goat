@@ -27,7 +27,7 @@ DEBUG = False
 
 TEMPLATE_DEBUG = DEBUG
 
-ALLOWED_HOSTS = ["testing-goat-sl.herokuapp.com"]
+ALLOWED_HOSTS = ["testing-goat-sl.herokuapp.com", "localhost", "127.0.0.1"]
 
 # Application definition
 
